@@ -98,7 +98,7 @@ class SimulatorMarketDataSource(MarketDataSource):
         """Remove a ticker from the simulation. No-op if not tracked."""
         self._tickers.pop(ticker, None)
 
-    async def get_price_now(self, ticker: str) -> PriceTick:
+    async def get_price_now(self, ticker: str) -> PriceTick | None:
         """Return the current price for a ticker (initialises it if unknown)."""
         if ticker not in self._tickers:
             self._init_ticker(ticker)

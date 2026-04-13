@@ -215,7 +215,7 @@ class MassiveMarketDataSource(MarketDataSource):
         last_quote = snapshot.get("lastQuote") or {}
         bid = last_quote.get("p")
         ask = last_quote.get("P")
-        if bid and ask:
+        if bid is not None and ask is not None:
             return (bid + ask) / 2
 
         last_trade = snapshot.get("lastTrade") or {}

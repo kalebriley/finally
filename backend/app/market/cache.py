@@ -34,7 +34,7 @@ class PriceCache:
         existing = self._prices.get(tick.ticker)
         prev_price = existing.price if existing else tick.price
 
-        if tick.prev_close and tick.prev_close != 0:
+        if tick.prev_close != 0:
             day_change = tick.price - tick.prev_close
             day_change_pct = day_change / tick.prev_close * 100
         else:

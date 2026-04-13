@@ -151,7 +151,8 @@ class MassiveMarketDataSource(MarketDataSource):
                 continue
 
             prev_day = t.get("prevDay") or {}
-            prev_close = prev_day.get("c") or price
+            raw_prev_close = prev_day.get("c")
+            prev_close = raw_prev_close if raw_prev_close is not None else price
 
             tick = PriceTick(
                 ticker=ticker,
@@ -194,7 +195,8 @@ class MassiveMarketDataSource(MarketDataSource):
             return None
 
         prev_day = t.get("prevDay") or {}
-        prev_close = prev_day.get("c") or price
+        raw_prev_close = prev_day.get("c")
+        prev_close = raw_prev_close if raw_prev_close is not None else price
 
         return PriceTick(
             ticker=ticker,
@@ -215,17 +217,17 @@ class MassiveMarketDataSource(MarketDataSource):
         last_quote = snapshot.get("lastQuote") or {}
         bid = last_quote.get("p")
         ask = last_quote.get("P")
-        if bid and ask:
+        if bid is not None and ask is not None:
             return (bid + ask) / 2
 
         last_trade = snapshot.get("lastTrade") or {}
         trade_price = last_trade.get("p")
-        if trade_price:
+        if trade_price is not None:
             return trade_price
 
         day = snapshot.get("day") or {}
         day_close = day.get("c")
-        if day_close:
+        if day_close is not None:
             return day_close
 
         return None

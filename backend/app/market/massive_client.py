@@ -220,12 +220,12 @@ class MassiveMarketDataSource(MarketDataSource):
 
         last_trade = snapshot.get("lastTrade") or {}
         trade_price = last_trade.get("p")
-        if trade_price:
+        if trade_price is not None:
             return trade_price
 
         day = snapshot.get("day") or {}
         day_close = day.get("c")
-        if day_close:
+        if day_close is not None:
             return day_close
 
         return None
